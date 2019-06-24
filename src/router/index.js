@@ -18,6 +18,11 @@ export default new Router({
           component: () => import('@/views/publish')
         }
       ]
+    },
+    {
+      name: 'login',
+      path: '/login',
+      component: () => import('@/views/login')
     }
   ]
 })
