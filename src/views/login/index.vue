@@ -34,6 +34,7 @@
 <script>
 import axios from 'axios'
 import '@/vendor/gt' // 引入极验 javascript SDK 文件， 通过 window.initGeetest 使用
+import { saveUser } from '@/utils/auth'
 const initCodeTimeSeconds = 60
 
 export default {
@@ -86,7 +87,8 @@ export default {
         .then(res => {
           // >=200 && < 400 的状态码会进入 then 成功
           const userInfo = res.data.data
-          window.localStorage.setItem('user_info', JSON.stringify(userInfo))
+          // window.localStorage.setItem('user_info', JSON.stringify(userInfo))
+          saveUser(userInfo)
           this.$message({
             message: '登录成功！',
             type: 'success'

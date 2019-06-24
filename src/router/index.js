@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import nprogress from 'nprogress'
+import { getUser } from '@/utils/auth'
+
 Vue.use(Router)
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -26,3 +29,26 @@ export default new Router({
     }
   ]
 })
+router.beforeEach((to, from, next) => {
+  nprogress.start()
+  // const userInfo = window.localStorage.getItem('user_info')
+  const userInfo = getUser()
+  if (to.path !== '/login') {
+    if (!userInfo) {
+      next({ name: 'login' })
+    } else {
+      next()
+    }
+  } else {
+    if (!userInfo) {
+      next()
+    } else {
+      window.location.href = '/#/'
+      window.location.reload()
+    }
+  }
+})
+router.afterEach((to, from) => {
+  nprogress.done()
+})
+export default router
