@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import '@/vendor/gt' // 引入极验 javascript SDK 文件， 通过 window.initGeetest 使用
 import { saveUser } from '@/utils/auth'
 const initCodeTimeSeconds = 60
@@ -77,29 +76,26 @@ export default {
         this.submitLogin()
       })
     },
-    submitLogin () {
-      // const { mobile, code } = this.form
-      axios({
-        method: 'POST',
-        url: 'http://toutiao.course.itcast.cn/mp/v1_0/authorizations',
-        data: this.form
-      })
-        .then(res => {
-          // >=200 && < 400 的状态码会进入 then 成功
-          const userInfo = res.data.data
-          // window.localStorage.setItem('user_info', JSON.stringify(userInfo))
-          saveUser(userInfo)
-          this.$message({
-            message: '登录成功！',
-            type: 'success'
-          })
-          this.$router.push({
-            name: 'home'
-          })
+    async submitLogin () {
+      try {
+        const res = await this.$http({
+          method: 'POST',
+          url: '/authorizations',
+          data: this.form
         })
-        .catch(e => {
-          this.$message.error('登录失败，手机号或验证码错误')
-        }) // >= 400 的状态码都会进入这里
+        const userInfo = res.data.data
+        // window.localStorage.setItem('user_info', JSON.stringify(userInfo))
+        saveUser(userInfo)
+        this.$message({
+          message: '登录成功！',
+          type: 'success'
+        })
+        this.$router.push({
+          name: 'home'
+        })
+      } catch (err) {
+        this.$message.error('登录失败，手机号或验证码错误')
+      }
     },
     handleSendCode () {
       // 验证手机号是否有效
@@ -112,58 +108,56 @@ export default {
       })
     },
     // 验证通过，初始化显示人机交互验证码
-    showGeetest () {
+    async showGeetest () {
       const { mobile } = this.form
-      axios({
+      const res = await this.$http({
         method: 'GET',
-        url: `http://toutiao.course.itcast.cn/mp/v1_0/authorizations/${mobile}`
-      }).then(res => {
-        const { data } = res.data
-        window.initGeetest(
-          {
-            // 以下配置参数来自服务端 SDK
-            gt: data.gt,
-            challenge: data.challenge,
-            offline: !data.success,
-            new_captcha: data.new_captcha,
-            product: 'bind' // 隐藏式
-          },
-          captchaObj => {
-            captchaObj
-              .onReady(() => {
-                // 验证码ready之后才能调用verify方法显示验证码
-                captchaObj.verify() // 弹出验证码框
-              })
-              .onSuccess(() => {
-                // your code
-                const {
-                  geetest_challenge: challenge,
-                  geetest_seccode: seccode,
-                  geetest_validate: validate
-                } = captchaObj.getValidate()
-
-                axios({
-                  method: 'GET',
-                  url: `http://toutiao.course.itcast.cn/mp/v1_0/authorizations/${mobile}`,
-                  params: {
-                    challenge,
-                    seccode,
-                    validate
-                  }
-                }).then(res => {
-                  // 发送短信成功，开始倒计时
-                  this.codeCodeDown()
-                })
-              })
-              .onError(function () {
-                // your code
-              })
-
-            // 在这里注册 “发送验证码” 按钮点击事件，然后验证用户是否输入手机号以及手机号是否正确，
-            // captchaObj.verify
-          }
-        )
+        url: `/authorizations/${mobile}`
       })
+      const { data } = res.data
+      window.initGeetest(
+        {
+          // 以下配置参数来自服务端 SDK
+          gt: data.gt,
+          challenge: data.challenge,
+          offline: !data.success,
+          new_captcha: data.new_captcha,
+          product: 'bind' // 隐藏式
+        },
+        captchaObj => {
+          captchaObj
+            .onReady(() => {
+              // 验证码ready之后才能调用verify方法显示验证码
+              captchaObj.verify() // 弹出验证码框
+            })
+            .onSuccess(async () => {
+              // your code
+              const {
+                geetest_challenge: challenge,
+                geetest_seccode: seccode,
+                geetest_validate: validate
+              } = captchaObj.getValidate()
+              // 发送短信
+              await this.$http({
+                method: 'GET',
+                url: `/authorizations/${mobile}`,
+                params: {
+                  challenge,
+                  seccode,
+                  validate
+                }
+              })
+              // 发送短信成功，开始倒计时
+              this.codeCodeDown()
+            })
+            .onError(function () {
+              // your code
+            })
+
+          // 在这里注册 “发送验证码” 按钮点击事件，然后验证用户是否输入手机号以及手机号是否正确，
+          // captchaObj.verify
+        }
+      )
     },
     // 验证码倒计时
     codeCodeDown () {
