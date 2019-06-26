@@ -81,7 +81,7 @@ export default {
       // const { mobile, code } = this.form
       axios({
         method: 'POST',
-        url: 'http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
+        url: 'http://toutiao.course.itcast.cn/mp/v1_0/authorizations',
         data: this.form
       })
         .then(res => {
@@ -116,7 +116,7 @@ export default {
       const { mobile } = this.form
       axios({
         method: 'GET',
-        url: `http://ttapi.research.itcast.cn/mp/v1_0/captchas/${mobile}`
+        url: `http://toutiao.course.itcast.cn/mp/v1_0/authorizations/${mobile}`
       }).then(res => {
         const { data } = res.data
         window.initGeetest(
@@ -144,7 +144,7 @@ export default {
 
                 axios({
                   method: 'GET',
-                  url: `http://ttapi.research.itcast.cn/mp/v1_0/sms/codes/${mobile}`,
+                  url: `http://toutiao.course.itcast.cn/mp/v1_0/authorizations/${mobile}`,
                   params: {
                     challenge,
                     seccode,

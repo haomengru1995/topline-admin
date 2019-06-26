@@ -5,7 +5,7 @@
             <el-dropdown>
                 <img width="30px" :src="userInfo.photo" alt="">
                 <span class="el-dropdown-link">
-                    {{ userInfo.name }}<i class="el-icon-arrow-down el-icon--right"></i>
+                    hao<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>用户设置</el-dropdown-item>
