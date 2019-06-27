@@ -73,6 +73,18 @@ export default {
         address: '上海市普陀区金沙江路 1516 弄'
       }]
     }
+  },
+  created () {
+    this.loadArticles()
+  },
+  methods: {
+    async loadArticles () {
+      const res = await this.$http({
+        method: 'GET',
+        url: '/articles'
+      })
+      console.log(res.data)
+    }
   }
 }
 </script>
