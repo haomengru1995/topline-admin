@@ -35,12 +35,12 @@ export default {
     height: 100%;
 }
 .el-aside {
-    background-color: rgb(220, 226, 167);
+    background-color: rgb(162, 163, 154);
 }
 .el-header {
-    background-color: rgb(236, 164, 143);
+    background-color: rgb(216, 180, 230);
 }
 .el-main {
-    background-color: rgb(205, 160, 223);
+    background-color: rgb(213, 235, 192);
 }
 </style>

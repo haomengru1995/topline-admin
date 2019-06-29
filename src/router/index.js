@@ -40,6 +40,9 @@ router.beforeEach((to, from, next) => {
   const userInfo = getUser()
   if (to.path !== '/login') {
     if (!userInfo) {
+      if (from.path === '/login') {
+        nprogress.done()
+      }
       next({ name: 'login' })
     } else {
       next()
