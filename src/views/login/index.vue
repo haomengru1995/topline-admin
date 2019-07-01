@@ -86,7 +86,7 @@ export default {
           url: '/authorizations',
           data: this.form
         })
-        const userInfo = res.data.data
+        const userInfo = res
         // window.localStorage.setItem('user_info', JSON.stringify(userInfo))
         saveUser(userInfo)
         this.$message({

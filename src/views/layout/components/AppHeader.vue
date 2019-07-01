@@ -3,9 +3,9 @@
         <el-col :span="10">江苏传智播客教育科技股份有限公司</el-col>
         <el-col :span="5" :offset="5">
             <el-dropdown>
-                <img width="30px" :src="userInfo.photo" alt="">
+                <img width="30px" :src="$store.state.user.photo" alt="">
                 <span class="el-dropdown-link">
-                    hao<i class="el-icon-arrow-down el-icon--right"></i>
+                  {{ $store.state.user.name }}<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>用户设置</el-dropdown-item>
@@ -18,17 +18,17 @@
 </template>
 
 <script>
-import { removeUser, getUser } from '@/utils/auth'
+import { removeUser } from '@/utils/auth'
 export default {
   name: 'AppHeader',
   data () {
     return {
-      userInfo: {}
+      // userInfo: {}
     }
   },
   created () {
     // this.userInfo = JSON.parse(window.localStorage.getItem('user_info'))
-    this.userInfo = getUser()
+    // this.userInfo = getUser()
   },
   methods: {
     handleLogout () {

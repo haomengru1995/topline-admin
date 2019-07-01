@@ -25,11 +25,11 @@
             <i class="el-icon-menu"></i>
             <span slot="title">内容列表</span>
         </el-menu-item>
-        <el-menu-item index="1-3">
+        <el-menu-item index="/comment">
             <i class="el-icon-menu"></i>
             <span slot="title">评论管理</span>
         </el-menu-item>
-        <el-menu-item index="1-4">
+        <el-menu-item index="/media">
             <i class="el-icon-menu"></i>
             <span slot="title">素材管理</span>
         </el-menu-item>
@@ -52,7 +52,7 @@
             <span slot="title">粉丝列表</span>
         </el-menu-item>
       </el-submenu>
-       <el-menu-item index="4">
+       <el-menu-item index="/account">
         <i class="el-icon-menu"></i>
         <span slot="title">账户管理</span>
       </el-menu-item>

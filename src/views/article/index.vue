@@ -82,7 +82,12 @@
           label="操作">
           <template slot-scope="scope">
             <el-row>
-              <el-button size="mini" type="primary" plain>编辑</el-button>
+              <el-button
+              size="mini"
+              type="primary"
+              plain
+              @click="$router.push(`/publish/${scope.row.id}`)"
+              >修改</el-button>
               <el-button size="mini" type="danger" plain @click="handleDelete(scope.row)">删除</el-button>
             </el-row>
           </template>

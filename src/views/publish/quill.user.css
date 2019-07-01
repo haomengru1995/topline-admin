@@ -1,0 +1,6 @@
+.ql-editor {
+    height: 200px;
+}
+.ql-editor ol, .ql-editor ul {
+  padding: 0;
+}
